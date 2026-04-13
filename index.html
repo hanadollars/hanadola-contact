@@ -1,0 +1,610 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Tư Vấn Miễn Phí — Hanadola Media & Technology</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,600;1,400&family=Be+Vietnam+Pro:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --navy: #0B1622;
+    --navy-2: #111E2D;
+    --navy-3: #172435;
+    --navy-4: #1E2F42;
+    --blue: #3A7BD5;
+    --blue-light: #5B9BD5;
+    --blue-glow: rgba(58,123,213,0.15);
+    --node: rgba(100,180,255,0.6);
+    --border: rgba(255,255,255,0.08);
+    --border-blue: rgba(58,123,213,0.3);
+    --text: #E8EDF2;
+    --text-2: #8FA8C0;
+    --text-3: #4A6880;
+    --gold: #C9A84C;
+    --green: #3DBE7A;
+    --green-bg: rgba(61,190,122,0.1);
+  }
+
+  * { margin:0; padding:0; box-sizing:border-box; }
+
+  body {
+    background: var(--navy);
+    color: var(--text);
+    font-family: 'Be Vietnam Pro', sans-serif;
+    font-weight: 300;
+    min-height: 100vh;
+    overflow-x: hidden;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  /* ── CANVAS NODES ── */
+  #bg-canvas {
+    position: fixed;
+    top: 0; left: 0;
+    width: 100%; height: 100%;
+    pointer-events: none;
+    z-index: 0;
+    opacity: 0.35;
+  }
+
+  /* ── LAYOUT ── */
+  .page {
+    position: relative;
+    z-index: 1;
+    min-height: 100vh;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 48px 40px;
+    gap: 64px;
+    align-items: center;
+  }
+
+  /* ── LEFT PANEL ── */
+  .left { padding-right: 16px; }
+
+  .brand {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 48px;
+  }
+  .brand-dot {
+    width: 8px; height: 8px;
+    border-radius: 50%;
+    background: var(--blue);
+    box-shadow: 0 0 12px var(--blue);
+    animation: pulse 2s ease-in-out infinite;
+  }
+  @keyframes pulse {
+    0%,100% { opacity: 1; transform: scale(1); }
+    50% { opacity: 0.5; transform: scale(0.8); }
+  }
+  .brand-name {
+    font-size: 15px;
+    font-weight: 500;
+    color: var(--text-2);
+    letter-spacing: .05em;
+  }
+
+  .left-tag {
+    display: inline-block;
+    font-size: 11px;
+    letter-spacing: .2em;
+    text-transform: uppercase;
+    color: var(--blue-light);
+    border: 1px solid var(--border-blue);
+    padding: 5px 13px;
+    border-radius: 2px;
+    margin-bottom: 22px;
+  }
+
+  .left h1 {
+    font-family: 'Playfair Display', serif;
+    font-size: 42px;
+    font-weight: 600;
+    line-height: 1.2;
+    margin-bottom: 16px;
+    color: var(--text);
+  }
+  .left h1 em {
+    font-style: italic;
+    color: var(--blue-light);
+  }
+
+  .left-desc {
+    font-size: 15px;
+    color: var(--text-2);
+    line-height: 1.8;
+    margin-bottom: 36px;
+  }
+
+  /* BENEFITS */
+  .benefits { margin-bottom: 40px; }
+  .benefit {
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+    padding: 12px 0;
+    border-top: 1px solid var(--border);
+  }
+  .benefit:last-child { border-bottom: 1px solid var(--border); }
+  .benefit-icon {
+    width: 32px; height: 32px;
+    border-radius: 6px;
+    background: var(--blue-glow);
+    border: 1px solid var(--border-blue);
+    display: flex; align-items: center; justify-content: center;
+    font-size: 14px;
+    flex-shrink: 0;
+  }
+  .benefit-text { font-size: 13.5px; color: var(--text-2); line-height: 1.6; }
+  .benefit-text strong { color: var(--text); font-weight: 500; display: block; margin-bottom: 2px; }
+
+  /* CONTACT DIRECT */
+  .direct {
+    background: var(--navy-3);
+    border: 1px solid var(--border-blue);
+    border-radius: 10px;
+    padding: 18px 20px;
+    display: flex;
+    align-items: center;
+    gap: 14px;
+  }
+  .zalo-badge {
+    background: #0068FF;
+    color: white;
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: .08em;
+    padding: 4px 10px;
+    border-radius: 4px;
+    flex-shrink: 0;
+  }
+  .direct-info { font-size: 13px; color: var(--text-2); line-height: 1.6; }
+  .direct-info strong {
+    font-size: 16px;
+    font-weight: 600;
+    color: var(--text);
+    display: block;
+    letter-spacing: .04em;
+  }
+  .direct-note { font-size: 11px; color: var(--text-3); }
+
+  /* ── RIGHT PANEL / FORM ── */
+  .form-card {
+    background: var(--navy-2);
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    padding: 36px 32px;
+    box-shadow: 0 24px 64px rgba(0,0,0,0.4), 0 0 0 1px rgba(58,123,213,0.08);
+    animation: slideUp .6s ease both;
+  }
+  @keyframes slideUp {
+    from { opacity:0; transform: translateY(24px); }
+    to   { opacity:1; transform: translateY(0); }
+  }
+
+  .form-title {
+    font-size: 18px;
+    font-weight: 600;
+    margin-bottom: 6px;
+    color: var(--text);
+  }
+  .form-subtitle {
+    font-size: 13px;
+    color: var(--text-3);
+    margin-bottom: 28px;
+    padding-bottom: 20px;
+    border-bottom: 1px solid var(--border);
+  }
+
+  /* FORM ELEMENTS */
+  .field { margin-bottom: 18px; }
+  .field label {
+    display: block;
+    font-size: 12px;
+    font-weight: 500;
+    color: var(--text-2);
+    margin-bottom: 7px;
+    letter-spacing: .03em;
+  }
+  .field label .req { color: var(--blue-light); margin-left: 2px; }
+  .field label .opt { color: var(--text-3); font-weight: 300; font-size: 11px; margin-left: 4px; }
+
+  .field input,
+  .field textarea,
+  .field select {
+    width: 100%;
+    background: var(--navy-3);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    color: var(--text);
+    font-family: 'Be Vietnam Pro', sans-serif;
+    font-size: 14px;
+    font-weight: 300;
+    padding: 11px 14px;
+    outline: none;
+    transition: border-color .2s, box-shadow .2s;
+    -webkit-appearance: none;
+  }
+  .field input::placeholder,
+  .field textarea::placeholder { color: var(--text-3); }
+  .field input:focus,
+  .field textarea:focus,
+  .field select:focus {
+    border-color: var(--blue);
+    box-shadow: 0 0 0 3px rgba(58,123,213,0.12);
+  }
+  .field textarea { resize: none; height: 90px; line-height: 1.6; }
+  .field select { cursor: pointer; }
+  .field select option { background: var(--navy-3); }
+
+  .field-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 14px;
+  }
+
+  /* CHIPS */
+  .chips { display: flex; flex-wrap: wrap; gap: 8px; }
+  .chip {
+    font-size: 12px;
+    color: var(--text-2);
+    background: var(--navy-3);
+    border: 1px solid var(--border);
+    padding: 6px 12px;
+    border-radius: 20px;
+    cursor: pointer;
+    transition: all .18s;
+    user-select: none;
+  }
+  .chip:hover { border-color: var(--border-blue); color: var(--blue-light); }
+  .chip.active {
+    background: var(--blue-glow);
+    border-color: var(--blue);
+    color: var(--blue-light);
+  }
+
+  /* SUBMIT */
+  .submit-btn {
+    width: 100%;
+    background: var(--blue);
+    color: white;
+    font-family: 'Be Vietnam Pro', sans-serif;
+    font-size: 14px;
+    font-weight: 600;
+    letter-spacing: .06em;
+    padding: 14px;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    margin-top: 22px;
+    transition: background .2s, transform .15s, box-shadow .2s;
+    position: relative;
+    overflow: hidden;
+  }
+  .submit-btn:hover:not(:disabled) {
+    background: var(--blue-light);
+    transform: translateY(-1px);
+    box-shadow: 0 8px 24px rgba(58,123,213,0.3);
+  }
+  .submit-btn:active { transform: translateY(0); }
+  .submit-btn:disabled { opacity: 0.6; cursor: not-allowed; }
+
+  .form-note {
+    text-align: center;
+    font-size: 11px;
+    color: var(--text-3);
+    margin-top: 12px;
+    line-height: 1.6;
+  }
+
+  /* SUCCESS STATE */
+  .success-state {
+    display: none;
+    text-align: center;
+    padding: 20px 0;
+    animation: slideUp .4s ease both;
+  }
+  .success-icon {
+    width: 64px; height: 64px;
+    border-radius: 50%;
+    background: var(--green-bg);
+    border: 2px solid var(--green);
+    display: flex; align-items: center; justify-content: center;
+    font-size: 28px;
+    margin: 0 auto 20px;
+  }
+  .success-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 22px;
+    font-weight: 600;
+    margin-bottom: 10px;
+    color: var(--text);
+  }
+  .success-desc { font-size: 14px; color: var(--text-2); line-height: 1.8; }
+  .success-zalo {
+    margin-top: 20px;
+    background: var(--navy-3);
+    border: 1px solid var(--border-blue);
+    border-radius: 8px;
+    padding: 14px 18px;
+    font-size: 13px;
+    color: var(--text-2);
+  }
+  .success-zalo strong { color: var(--text); font-size: 15px; display: block; margin-top: 4px; }
+
+  /* MOBILE */
+  @media (max-width: 768px) {
+    .page {
+      grid-template-columns: 1fr;
+      padding: 32px 20px 48px;
+      gap: 40px;
+    }
+    .left h1 { font-size: 30px; }
+    .field-row { grid-template-columns: 1fr; gap: 0; }
+    .form-card { padding: 24px 20px; }
+  }
+</style>
+</head>
+<body>
+
+<canvas id="bg-canvas"></canvas>
+
+<div class="page">
+
+  <!-- LEFT -->
+  <div class="left">
+    <div class="brand">
+      <div class="brand-dot"></div>
+      <span class="brand-name">Hanadola Media & Technology</span>
+    </div>
+
+    <div class="left-tag">Tư vấn miễn phí · 30 phút</div>
+
+    <h1>Bắt đầu <em>hành trình số</em> của bạn ngay hôm nay</h1>
+
+    <p class="left-desc">Để lại thông tin — chúng tôi sẽ liên hệ trong vòng <strong style="color:var(--text)">2 giờ làm việc</strong> để hiểu rõ nhu cầu và đề xuất giải pháp phù hợp nhất.</p>
+
+    <div class="benefits">
+      <div class="benefit">
+        <div class="benefit-icon">⚡</div>
+        <div class="benefit-text">
+          <strong>Phản hồi trong 2 giờ</strong>
+          Không chờ đợi dài — chúng tôi liên hệ ngay khi nhận form
+        </div>
+      </div>
+      <div class="benefit">
+        <div class="benefit-icon">🎯</div>
+        <div class="benefit-text">
+          <strong>Tư vấn đúng vấn đề</strong>
+          Không bán dịch vụ bạn không cần — chỉ đề xuất những gì thực sự hiệu quả
+        </div>
+      </div>
+      <div class="benefit">
+        <div class="benefit-icon">🤝</div>
+        <div class="benefit-text">
+          <strong>Báo giá minh bạch</strong>
+          Rõ ràng từ đầu, không phát sinh chi phí ẩn
+        </div>
+      </div>
+    </div>
+
+    <div class="direct">
+      <div class="zalo-badge">ZALO</div>
+      <div class="direct-info">
+        <span class="direct-note">Muốn nói chuyện ngay?</span>
+        <strong>0935 251 866</strong>
+        <span class="direct-note">Thứ 2 – Thứ 7 · 8:00 – 18:00</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- RIGHT: FORM -->
+  <div class="form-card">
+
+    <!-- FORM STATE -->
+    <div id="form-state">
+      <div class="form-title">Gửi yêu cầu tư vấn</div>
+      <div class="form-subtitle">Điền thông tin bên dưới — chúng tôi sẽ chủ động liên hệ bạn</div>
+
+      <div class="field-row">
+        <div class="field">
+          <label>Họ và tên <span class="req">*</span></label>
+          <input type="text" id="f-name" placeholder="Nguyễn Văn A" maxlength="60">
+        </div>
+        <div class="field">
+          <label>Số Zalo <span class="req">*</span></label>
+          <input type="tel" id="f-phone" placeholder="0xxx xxx xxx" maxlength="15">
+        </div>
+      </div>
+
+      <div class="field">
+        <label>Email <span class="opt">(không bắt buộc)</span></label>
+        <input type="text" inputmode="email" id="f-email" placeholder="email@example.com">
+      </div>
+
+      <div class="field">
+        <label>Tên công ty / thương hiệu <span class="opt">(nếu có)</span></label>
+        <input type="text" id="f-company" placeholder="Công ty hoặc tên shop của bạn" maxlength="80">
+      </div>
+
+      <div class="field">
+        <label>Bạn đang quan tâm dịch vụ nào? <span class="req">*</span></label>
+        <div class="chips" id="chips">
+          <div class="chip" onclick="toggleChip(this)">⚡ Setup kênh online</div>
+          <div class="chip" onclick="toggleChip(this)">✍️ Quản lý content</div>
+          <div class="chip" onclick="toggleChip(this)">🎨 Ảnh & video AI</div>
+          <div class="chip" onclick="toggleChip(this)">📸 Bộ ảnh cá nhân</div>
+          <div class="chip" onclick="toggleChip(this)">📖 Viết ebook</div>
+          <div class="chip" onclick="toggleChip(this)">💻 Landing page / Tool</div>
+          <div class="chip" onclick="toggleChip(this)">📊 Tư vấn chiến lược</div>
+          <div class="chip" onclick="toggleChip(this)">🤔 Chưa rõ — cần tư vấn</div>
+        </div>
+      </div>
+
+      <div class="field">
+        <label>Mô tả ngắn vấn đề / mong muốn của bạn <span class="opt">(không bắt buộc)</span></label>
+        <textarea id="f-note" placeholder="Ví dụ: Mình đang có shop Shopee nhưng chưa có Fanpage, muốn xây dựng thêm kênh TikTok để tăng đơn hàng..."></textarea>
+      </div>
+
+      <div id="form-error" style="display:none; color:#E57373; font-size:12.5px; margin-top:-8px; margin-bottom:10px;"></div>
+
+      <button class="submit-btn" id="submit-btn" onclick="submitForm()">
+        Gửi yêu cầu tư vấn →
+      </button>
+
+      <div class="form-note">
+        🔒 Thông tin của bạn được bảo mật tuyệt đối · Không spam · Không chia sẻ bên thứ ba
+      </div>
+    </div>
+
+    <!-- SUCCESS STATE -->
+    <div class="success-state" id="success-state">
+      <div class="success-icon">✓</div>
+      <div class="success-title">Đã nhận thông tin!</div>
+      <div class="success-desc">
+        Cảm ơn bạn đã liên hệ Hanadola.<br>
+        Chúng tôi sẽ chủ động nhắn Zalo cho bạn<br>
+        trong vòng <strong style="color:var(--text)">2 giờ làm việc</strong>.
+      </div>
+      <div class="success-zalo">
+        Hoặc bạn có thể nhắn trực tiếp qua Zalo<br>
+        <strong>0935 251 866</strong>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<script>
+/* ── NODE ANIMATION ── */
+const canvas = document.getElementById('bg-canvas');
+const ctx = canvas.getContext('2d');
+let nodes = [];
+
+function resize() {
+  canvas.width = window.innerWidth;
+  canvas.height = window.innerHeight;
+}
+
+function initNodes() {
+  nodes = [];
+  const count = Math.floor((canvas.width * canvas.height) / 18000);
+  for (let i = 0; i < count; i++) {
+    nodes.push({
+      x: Math.random() * canvas.width,
+      y: Math.random() * canvas.height,
+      vx: (Math.random() - 0.5) * 0.3,
+      vy: (Math.random() - 0.5) * 0.3,
+      r: Math.random() * 1.5 + 0.5
+    });
+  }
+}
+
+function drawNodes() {
+  ctx.clearRect(0, 0, canvas.width, canvas.height);
+  const maxDist = 120;
+
+  nodes.forEach(n => {
+    n.x += n.vx;
+    n.y += n.vy;
+    if (n.x < 0 || n.x > canvas.width) n.vx *= -1;
+    if (n.y < 0 || n.y > canvas.height) n.vy *= -1;
+
+    ctx.beginPath();
+    ctx.arc(n.x, n.y, n.r, 0, Math.PI * 2);
+    ctx.fillStyle = 'rgba(100,180,255,0.7)';
+    ctx.fill();
+  });
+
+  for (let i = 0; i < nodes.length; i++) {
+    for (let j = i + 1; j < nodes.length; j++) {
+      const dx = nodes[i].x - nodes[j].x;
+      const dy = nodes[i].y - nodes[j].y;
+      const dist = Math.sqrt(dx * dx + dy * dy);
+      if (dist < maxDist) {
+        ctx.beginPath();
+        ctx.moveTo(nodes[i].x, nodes[i].y);
+        ctx.lineTo(nodes[j].x, nodes[j].y);
+        ctx.strokeStyle = `rgba(58,123,213,${(1 - dist / maxDist) * 0.4})`;
+        ctx.lineWidth = 0.5;
+        ctx.stroke();
+      }
+    }
+  }
+  requestAnimationFrame(drawNodes);
+}
+
+resize();
+initNodes();
+drawNodes();
+window.addEventListener('resize', () => { resize(); initNodes(); });
+
+/* ── CHIPS ── */
+function toggleChip(el) {
+  el.classList.toggle('active');
+}
+
+/* ── FORM SUBMIT ── */
+async function submitForm() {
+  const name    = document.getElementById('f-name').value.trim();
+  const phone   = document.getElementById('f-phone').value.trim();
+  const email   = document.getElementById('f-email').value.trim();
+  const company = document.getElementById('f-company').value.trim();
+  const note    = document.getElementById('f-note').value.trim();
+  const services = [...document.querySelectorAll('.chip.active')].map(c => c.textContent.trim());
+  const errEl   = document.getElementById('form-error');
+  const btn     = document.getElementById('submit-btn');
+
+  errEl.style.display = 'none';
+
+  if (!name) {
+    errEl.textContent = '⚠ Vui lòng nhập họ và tên của bạn.';
+    errEl.style.display = 'block';
+    document.getElementById('f-name').focus();
+    return;
+  }
+  if (!phone || phone.replace(/\D/g, '').length < 9) {
+    errEl.textContent = '⚠ Vui lòng nhập số Zalo hợp lệ.';
+    errEl.style.display = 'block';
+    document.getElementById('f-phone').focus();
+    return;
+  }
+  if (services.length === 0) {
+    errEl.textContent = '⚠ Vui lòng chọn ít nhất 1 dịch vụ bạn quan tâm.';
+    errEl.style.display = 'block';
+    return;
+  }
+
+  btn.disabled = true;
+  btn.textContent = 'Đang gửi...';
+
+  try {
+    const res = await fetch('/api/submit-contact', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ name, phone, email, company, services, note }),
+    });
+    const data = await res.json();
+
+    if (!res.ok || !data.success) {
+      throw new Error(data.error || 'Gửi thất bại');
+    }
+
+    document.getElementById('form-state').style.display = 'none';
+    const s = document.getElementById('success-state');
+    s.style.display = 'block';
+
+  } catch (err) {
+    errEl.textContent = '⚠ Có lỗi xảy ra. Vui lòng thử lại hoặc liên hệ Zalo 0935 251 866.';
+    errEl.style.display = 'block';
+    btn.disabled = false;
+    btn.textContent = 'Gửi yêu cầu tư vấn →';
+  }
+}
+</script>
+</body>
+</html>
